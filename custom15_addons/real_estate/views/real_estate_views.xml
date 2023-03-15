@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <!-- Top menu item -->
+        <menuitem id="real_estate_menu_root"
+            name="RealEstate"
+            active="False"
+            sequence="30"/>
+
+       
+
