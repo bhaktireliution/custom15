@@ -11,6 +11,7 @@
     'depends': [],
     'data': [
         'security/ir.model.access.csv',
+        'views/real_estate_views.xml'
     ],
     'demo': [],
     'installable': True,
