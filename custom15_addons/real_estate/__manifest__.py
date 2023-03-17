@@ -14,6 +14,7 @@
         'views/real_estate_views.xml'
     ],
     'demo': [],
+    'application': True,
     'installable': True,
     'auto_install': False,
     'assets': {},
