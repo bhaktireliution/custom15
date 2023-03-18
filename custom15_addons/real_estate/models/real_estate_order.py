@@ -35,3 +35,7 @@ class realestateorder(models.Model):
         ('east', 'East'),
         ('west', 'West'),
     ], copy=False, index=True, tracking=3, default='draft')
+    property_types = fields.Many2one(string='Property Types')
+    other_info = fields.Text(string='Other Info')
+    salesman = fields.Char(string='Salesman')
+    buyer = fields.Char(string='Buyer')

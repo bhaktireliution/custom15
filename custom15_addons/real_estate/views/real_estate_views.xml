@@ -65,10 +65,46 @@
                  <search>
                      <field name="name" string="name"/>
                      <field name="postcode" string="postcode"/>
-                     <filter name="filter_south" string="South" filter_domain="[('garden_orientation', '=', 'south')]"/>
+                     <filter name="filter_north" string="North" domain="[('garden_orientation', '=', 'north')]"/>
+                     <filter name="filter_south" string="South" domain="[('garden_orientation', '=', 'south')]"/>
+                     <filter name="filter_east" string="East" domain="[('garden_orientation', '=', 'east')]"/>
+                     <filter name="filter_west" string="West" domain="[('garden_orientation', '=', 'west')]"/>
+                     <separator/>
+                     <filter name="filter_price" string="Low Price" domain="[('selling_price', '&lt;', '100000')]"/>
+                     <filter name="price_filters" string="Medium Price" domain="[('selling_price', '=', '100000')]"/>
+                     <filter name="price_filter" string="High Price" domain="[('selling_price', '>', '100000')]"/>
+                     <group expand="0" string="Group By">
+                        <filter name="group_by_date" string="Date Availability" context="{'group_by':'date_availability'}"/>
+                        <filter name="group_by_postcode" string="Postcode" context="{'group_by':'postcode'}"/>
+                     </group>
                  </search>
             </field>
        </record>
+
+      <record id="view_property_types_tree" model="ir.ui.view">
+            <field name="name">real_estate.order.tree</field>
+            <field name="model">real_estate.order</field>
+            <field name="arch" type="xml">
+                <tree string="Property Types" >
+                    <field name="property_types" string="property_types"/>
+                    <field name="description" string="description" optional="hide" />
+                    <field name="postcode" string="postcode"/>
+                    <field name="expected_price" string="expected_price"/>
+                    <field name="selling_price" string="selling_price"/>
+                    <field name="date_availability" string="date_availability"/>
+                    <field name="bedrooms" string="bedrooms" optional="hide"/>
+                    <field name="living_area" string="living_area" optional="hide" />
+                    <field name="facades" string="facades" optional="hide"/>
+                    <field name="garage" string="garage" optional="hide"/>
+                    <field name="garden" string="garden" optional="hide"/>
+                    <field name="garden_area" string="garden_area" optional="hide"/>
+                    <field name="garden_orientation"/>
+                    <field name="other_info" string="other_info" optional="hide"/>
+                    <field name="salesman" string="salesman"/>
+                    <field name="buyer" string="buyer"/>
+                </tree>
+            </field>
+      </record>
 
        <record id="real_estate_action" model="ir.actions.act_window">
             <field name="name">Properties</field>
@@ -80,7 +116,8 @@
         <!-- Top menu item -->
         <menuitem id="real_estate_menu_root"
             name="RealEstate"
-            sequence="30"/>
+            web_icon="real_estate,static/description/icon.png"
+            sequence="-100"/>
 
         <menuitem id="real_estate_advertisement_menu"
             name="Advertisements"
