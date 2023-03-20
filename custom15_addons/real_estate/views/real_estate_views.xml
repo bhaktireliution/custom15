@@ -6,19 +6,23 @@
             <field name="model">real_estate.order</field>
             <field name="arch" type="xml">
                 <tree string="RealEstate" >
-                    <field name="name" string="name"/>
-                    <field name="description" string="description" optional="hide" />
-                    <field name="postcode" string="postcode"/>
-                    <field name="expected_price" string="expected_price"/>
-                    <field name="selling_price" string="selling_price"/>
-                    <field name="date_availability" string="date_availability"/>
-                    <field name="bedrooms" string="bedrooms" optional="hide"/>
-                    <field name="living_area" string="living_area" optional="hide" />
-                    <field name="facades" string="facades" optional="hide"/>
-                    <field name="garage" string="garage" optional="hide"/>
-                    <field name="garden" string="garden" optional="hide"/>
-                    <field name="garden_area" string="garden_area" optional="hide"/>
-                    <field name="garden_orientation"/>
+                    <field name="property_type" string="Property Type"/>
+                    <field name="name" string="Name"/>
+                    <field name="description" string="Description" optional="hide" />
+                    <field name="postcode" string="Postcode"/>
+                    <field name="expected_price" string="Expected Price"/>
+                    <field name="selling_price" string="Selling Price"/>
+                    <field name="date_availability" string="Date Availability"/>
+                    <field name="bedrooms" string="Bedrooms" optional="hide"/>
+                    <field name="living_area" string="Living Area" optional="hide" />
+                    <field name="facades" string="Facades" optional="hide"/>
+                    <field name="garage" string="Garage" optional="hide"/>
+                    <field name="garden" string="Garden" optional="hide"/>
+                    <field name="garden_area" string="Garden Area" optional="hide"/>
+                    <field name="garden_orientation" string="Garden Orientation"/>
+                    <field name="other_info" string="Other Info" optional="hide"/>
+                    <field name="salesman" string="Salesman" optional="hide"/>
+                    <field name="buyer" string="Buyer" optional="hide"/>
                 </tree>
             </field>
        </record>
@@ -31,6 +35,7 @@
                   <sheet>
                       <group>
                           <group>
+                              <field name="property_type"/>
                               <field name="name"/>
                               <field name="postcode"/>
                           </group>
@@ -40,7 +45,7 @@
                               <field name="date_availability"/>
                           </group>
                           <notebook>
-                              <page string="description">
+                              <page string="Description">
                                   <group>
                                    <field name="bedrooms"/>
                                    <field name="facades"/>
@@ -51,7 +56,13 @@
                                    <field name="garden_orientation"/>
                                   </group>
                               </page>
-                         </notebook>
+                              <page string="Other Info">
+                                  <group>
+                                      <field name="salesman"/>
+                                      <field name="buyer"/>
+                                  </group>
+                              </page>
+                          </notebook>
                       </group>
                   </sheet>
               </form>
@@ -81,35 +92,71 @@
             </field>
        </record>
 
-      <record id="view_property_types_tree" model="ir.ui.view">
-            <field name="name">real_estate.order.tree</field>
-            <field name="model">real_estate.order</field>
+       <record id="property_types_tree" model="ir.ui.view">
+           <field name="name">property.type.tree</field>
+           <field name="model">property.type</field>
+           <field name="arch" type="xml">
+                   <tree string="Properties Types">
+                           <field name="name" string="name"/>
+                   </tree>
+           </field>
+       </record>
+
+       <record id="property_types_form" model="ir.ui.view">
+            <field name="name">property.type.form</field>
+            <field name="model">property.type</field>
             <field name="arch" type="xml">
-                <tree string="Property Types" >
-                    <field name="property_types" string="property_types"/>
-                    <field name="description" string="description" optional="hide" />
-                    <field name="postcode" string="postcode"/>
-                    <field name="expected_price" string="expected_price"/>
-                    <field name="selling_price" string="selling_price"/>
-                    <field name="date_availability" string="date_availability"/>
-                    <field name="bedrooms" string="bedrooms" optional="hide"/>
-                    <field name="living_area" string="living_area" optional="hide" />
-                    <field name="facades" string="facades" optional="hide"/>
-                    <field name="garage" string="garage" optional="hide"/>
-                    <field name="garden" string="garden" optional="hide"/>
-                    <field name="garden_area" string="garden_area" optional="hide"/>
-                    <field name="garden_orientation"/>
-                    <field name="other_info" string="other_info" optional="hide"/>
-                    <field name="salesman" string="salesman"/>
-                    <field name="buyer" string="buyer"/>
-                </tree>
+                    <form string="Properties Types">
+                            <sheet>
+                                <group>
+                                    <field name="name" string="name"/>
+                                </group>
+                            </sheet>
+                    </form>
             </field>
-      </record>
+       </record>
+
+       <record id="property_tags_tree" model="ir.ui.view">
+           <field name="name">property.tag.tree</field>
+           <field name="model">property.tag</field>
+           <field name="arch" type="xml">
+                   <tree string="Properties Tags">
+                           <field name="name" string="Name"/>
+                   </tree>
+           </field>
+       </record>
+
+       <record id="property_tags_form" model="ir.ui.view">
+            <field name="name">property.tag.form</field>
+            <field name="model">property.tag</field>
+            <field name="arch" type="xml">
+                    <form string="Properties Tags">
+                            <sheet>
+                                <group>
+                                    <field name="name" string="Name"/>
+                                </group>
+                            </sheet>
+                    </form>
+            </field>
+       </record>
+
 
        <record id="real_estate_action" model="ir.actions.act_window">
             <field name="name">Properties</field>
             <field name="res_model">real_estate.order</field>
             <field name="view_mode">tree,form</field>
+       </record>
+
+       <record id="property_types_action" model="ir.actions.act_window">
+           <field name="name">Property Types</field>
+           <field name="res_model">property.type</field>
+           <field name="view_mode">tree,form</field>
+       </record>
+
+       <record id="property_tags_action" model="ir.actions.act_window">
+           <field name="name">Property Tags</field>
+           <field name="res_model">property.tag</field>
+           <field name="view_mode">tree,form</field>
        </record>
 
 
@@ -125,11 +172,12 @@
             action="real_estate_action"
             sequence="2"/>
 
-        <menuitem id="real_estate_setting_menu"
-            name="Settings"
+        <menuitem id="real_estate_settings_menu"
+            name="settings"
             parent="real_estate_menu_root"
             action="real_estate_action"
-            sequence="4"/>
+            sequence="2"/>
+
 
         <menuitem id="real_estate_properties_menu"
             name="Properties"
@@ -137,17 +185,19 @@
             action="real_estate_action"
             sequence="3"/>
 
-        <menuitem id="real_estate_properties_types_menu"
-            name="Property Types"
-            parent="real_estate_setting_menu"
-            action="real_estate_action"
-            sequence="6"/>
+        <menuitem id="properties_types_menu"
+            name="Properties Types"
+            parent="real_estate_settings_menu"
+            action="property_types_action"
+            sequence="3"/>
 
-        <menuitem id="real_estate_properties_tags_menu"
-            name="Property Tags"
-            parent="real_estate_setting_menu"
-            action="real_estate_action"
-            sequence="7"/>
+        <menuitem id="properties_tags_menu"
+            name="Properties Tags"
+            parent="real_estate_settings_menu"
+            action="property_tags_action"
+            sequence="10"/>
+
+
 
 
 </odoo>
