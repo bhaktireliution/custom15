@@ -17,7 +17,7 @@ class realestateorder(models.Model):
     _description = "Real Estate Order"
 
 
-    name = fields.Char(string='Title', required=True)
+    name = fields.Char(string='Name', required=True)
     description = fields.Text(string='Description', required=False)
     postcode = fields.Char(string='Postcode', required=False)
     date_availability = fields.Date(string='Available Date', required=True)
@@ -35,8 +35,9 @@ class realestateorder(models.Model):
         ('east', 'East'),
         ('west', 'West'),
     ], copy=False, index=True, tracking=3, default='draft')
-    property_type = fields.Many2one('property.type', string='Property Type')
+    property_type_id = fields.Many2one('property.type', string='Property Type')
     other_info = fields.Text(string='Other Info', required=False)
-    salesman = fields.Many2one('res.partner', string='Salesman')
-    buyer = fields.Many2one('res.partner', string='Buyer')
+    salesman_id = fields.Many2one('res.partner', string='Salesman')
+    buyer_id = fields.Many2one('res.users', string='Buyer')
+    tag_id = fields.Many2many('property.tag', string='Property Tag')
 
