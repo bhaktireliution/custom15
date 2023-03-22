@@ -60,6 +60,13 @@
                                   </group>
                               </page>
                               <page string="Offers">
+                                      <field name="offer_ids">
+                                              <tree string="Properties Offer" editable="bottom">
+                                                  <field name="price" string="Price"/>
+                                                  <field name="partner_id" string="Partner"/>
+                                                  <field name="status" string="Status"/>
+                                              </tree>
+                                      </field>
                               </page>
                               <page string="Other Info">
                                   <group>
@@ -126,6 +133,7 @@
            <field name="arch" type="xml">
                    <tree string="Properties Tags">
                            <field name="name" string="Name"/>
+                           <field name="color" widget="color_picker"/>
                    </tree>
            </field>
        </record>
@@ -138,12 +146,12 @@
                             <sheet>
                                 <group>
                                     <field name="name" string="Name"/>
+                                    <field name="color" widget="color_picker"/>
                                 </group>
                             </sheet>
                     </form>
             </field>
        </record>
-
 
        <record id="real_estate_action" model="ir.actions.act_window">
             <field name="name">Properties</field>
@@ -181,7 +189,6 @@
             parent="real_estate_menu_root"
             action="real_estate_action"
             sequence="2"/>
-
 
         <menuitem id="real_estate_properties_menu"
             name="Properties"

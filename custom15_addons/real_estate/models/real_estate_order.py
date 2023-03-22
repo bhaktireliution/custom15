@@ -30,7 +30,7 @@ class realestateorder(models.Model):
     garden = fields.Boolean(string='Garden')
     garden_area = fields.Integer(string='Garden Area')
     garden_orientation = fields.Selection([
-        ('north' , 'North'),
+        ('north', 'North'),
         ('south', 'South'),
         ('east', 'East'),
         ('west', 'West'),
@@ -40,4 +40,4 @@ class realestateorder(models.Model):
     salesman_id = fields.Many2one('res.partner', string='Salesman')
     buyer_id = fields.Many2one('res.users', string='Buyer')
     tag_id = fields.Many2many('property.tag', string='Property Tag')
-
+    offer_ids = fields.One2many('property.offer', 'property_id', string='Offers')

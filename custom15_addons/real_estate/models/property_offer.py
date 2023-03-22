@@ -12,9 +12,14 @@ from odoo.tools import float_is_zero, html_keep_url, is_html_empty
 
 from odoo.addons.payment import utils as payment_utils
 
-class Propertytags(models.Model):
-    _name = "property.tag"
-    _description = "Real Estate Property Tag"
+class Propertyoffer(models.Model):
+    _name = "property.offer"
+    _description = "Real Estate Property Offer"
 
-    name = fields.Char(string='Name')
-    color = fields.Integer(string='Color')
+    price = fields.Float(string='Price')
+    partner_id = fields.Many2one('res.partner', string='Partner', required=True)
+    status = fields.Selection([
+        ('accepted', 'Accepted'),
+        ('refused', 'Refused'),
+    ], copy=False)
+    property_id = fields.Many2one('real_estate.order', string='Property', required=True)
