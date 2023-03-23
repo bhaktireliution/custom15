@@ -23,3 +23,5 @@ class Propertyoffer(models.Model):
         ('refused', 'Refused'),
     ], copy=False)
     property_id = fields.Many2one('real_estate.order', string='Property', required=True)
+
+

@@ -11,7 +11,10 @@
     'depends': [],
     'data': [
         'security/ir.model.access.csv',
-        'views/real_estate_views.xml'
+        'views/real_estate_views.xml',
+        'views/property_type.xml',
+        'views/property_tags.xml',
+        'views/menu.xml'
     ],
     'demo': [],
     'application': True,

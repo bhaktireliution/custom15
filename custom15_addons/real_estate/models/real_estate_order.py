@@ -16,7 +16,6 @@ class realestateorder(models.Model):
     _name = "real_estate.order"
     _description = "Real Estate Order"
 
-
     name = fields.Char(string='Name', required=True)
     description = fields.Text(string='Description', required=False)
     postcode = fields.Char(string='Postcode', required=False)
@@ -41,3 +40,13 @@ class realestateorder(models.Model):
     buyer_id = fields.Many2one('res.users', string='Buyer')
     tag_id = fields.Many2many('property.tag', string='Property Tag')
     offer_ids = fields.One2many('property.offer', 'property_id', string='Offers')
+
+    @api.onchange("garden")
+    def onchange_garden(self):
+        for rec in self:
+            if rec.garden == True:
+                rec.garden_area = 10
+                rec.garden_orientation = 'north'
+            else:
+                rec.garden_area = 0
+                rec.garden_orientation = None

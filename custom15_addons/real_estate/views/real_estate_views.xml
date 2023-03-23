@@ -103,109 +103,10 @@
             </field>
        </record>
 
-       <record id="property_types_tree" model="ir.ui.view">
-           <field name="name">property.type.tree</field>
-           <field name="model">property.type</field>
-           <field name="arch" type="xml">
-                   <tree string="Properties Types">
-                           <field name="name" string="name"/>
-                   </tree>
-           </field>
-       </record>
-
-       <record id="property_types_form" model="ir.ui.view">
-            <field name="name">property.type.form</field>
-            <field name="model">property.type</field>
-            <field name="arch" type="xml">
-                    <form string="Properties Types">
-                            <sheet>
-                                <group>
-                                    <field name="name" string="name"/>
-                                </group>
-                            </sheet>
-                    </form>
-            </field>
-       </record>
-
-       <record id="property_tags_tree" model="ir.ui.view">
-           <field name="name">property.tag.tree</field>
-           <field name="model">property.tag</field>
-           <field name="arch" type="xml">
-                   <tree string="Properties Tags">
-                           <field name="name" string="Name"/>
-                           <field name="color" widget="color_picker"/>
-                   </tree>
-           </field>
-       </record>
-
-       <record id="property_tags_form" model="ir.ui.view">
-            <field name="name">property.tag.form</field>
-            <field name="model">property.tag</field>
-            <field name="arch" type="xml">
-                    <form string="Properties Tags">
-                            <sheet>
-                                <group>
-                                    <field name="name" string="Name"/>
-                                    <field name="color" widget="color_picker"/>
-                                </group>
-                            </sheet>
-                    </form>
-            </field>
-       </record>
-
        <record id="real_estate_action" model="ir.actions.act_window">
             <field name="name">Properties</field>
             <field name="res_model">real_estate.order</field>
             <field name="view_mode">tree,form</field>
        </record>
-
-       <record id="property_types_action" model="ir.actions.act_window">
-           <field name="name">Property Types</field>
-           <field name="res_model">property.type</field>
-           <field name="view_mode">tree,form</field>
-       </record>
-
-       <record id="property_tags_action" model="ir.actions.act_window">
-           <field name="name">Property Tags</field>
-           <field name="res_model">property.tag</field>
-           <field name="view_mode">tree,form</field>
-       </record>
-
-
-        <!-- Top menu item -->
-        <menuitem id="real_estate_menu_root"
-            name="RealEstate"
-            web_icon="real_estate,static/description/icon.png"
-            sequence="-100"/>
-
-        <menuitem id="real_estate_advertisement_menu"
-            name="Advertisements"
-            parent="real_estate_menu_root"
-            action="real_estate_action"
-            sequence="2"/>
-
-        <menuitem id="real_estate_settings_menu"
-            name="settings"
-            parent="real_estate_menu_root"
-            action="real_estate_action"
-            sequence="2"/>
-
-        <menuitem id="real_estate_properties_menu"
-            name="Properties"
-            parent="real_estate_advertisement_menu"
-            action="real_estate_action"
-            sequence="3"/>
-
-        <menuitem id="properties_types_menu"
-            name="Properties Types"
-            parent="real_estate_settings_menu"
-            action="property_types_action"
-            sequence="3"/>
-
-        <menuitem id="properties_tags_menu"
-            name="Properties Tags"
-            parent="real_estate_settings_menu"
-            action="property_tags_action"
-            sequence="10"/>
 
 </odoo>
