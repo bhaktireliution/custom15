@@ -25,3 +25,7 @@ class Propertyoffer(models.Model):
     property_id = fields.Many2one('real_estate.order', string='Property', required=True)
 
 
+
+
+
+
