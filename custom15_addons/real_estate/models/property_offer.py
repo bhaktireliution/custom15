@@ -23,7 +23,17 @@ class Propertyoffer(models.Model):
         ('refused', 'Refused'),
     ], copy=False)
     property_id = fields.Many2one('real_estate.order', string='Property', required=True)
+    validity = fields.Integer(string='Validity', default=7)
+    date_deadline = fields.Date(string='Deadline', compute='_compute_date', inverse='_inverse_date')
 
+    # @api.depends('validity')
+    # def _compute_date(self):
+    #     for rec in self:
+    #         rec.date_deadline = rec.validity + rec.date_deadline
+    #
+    # def _inverse_date(self):
+    #     for rec in self:
+    #         rec.validity = rec.date_deadline + rec.validity
 
 
 

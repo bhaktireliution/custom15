@@ -42,26 +42,26 @@ class realestateorder(models.Model):
     offer_ids = fields.One2many('property.offer', 'property_id', string='Offers')
     total_area = fields.Integer(string='Total Area(sqm)', compute='_compute_total_area')
     best_offer = fields.Float(string='Best Price', compute='_compute_best_offer')
-    price = fields.Float(string='Price')
 
-    @api.depends('price')
+    @api.depends('offer_ids.validity', 'offer_ids.date_deadline')
+    def _compute_date(self):
+        for rec in self:
+            rec.date_deadline = rec.validity + rec.date_availability
+
+    def _inverse_date(self):
+        for rec in self:
+            rec.validity = rec.date_availability + rec.validity
+
+
+    @api.depends('offer_ids.price')
     def _compute_best_offer(self):
         for rec in self:
+            rec.best_offer = 0
             for offer1 in range(len(rec.offer_ids)):
                 for offer2 in range(offer1 + 1, len(rec.offer_ids)):
-                    if rec.offer_ids[offer1].price > rec.offer_ids[offer2].price:
-                        rec.best_offer = rec.offer_ids[offer1].price
-                # if offers and offers.price > 200000:
-                #     rec.best_offer = offers.price
+                    if rec.offer_ids[offer1].price < rec.offer_ids[offer2].price:
+                        rec.best_offer = rec.offer_ids[offer2].price
 
-
-
-    # @api.depends('offer_ids.price')
-    # def _compute_best_offer(self):
-    #     for offer1 in range(len(self.offer_ids)):
-    #         for offer2 in range(offer1 + 1, len(self.offer_ids)):
-    #             if offer1 and self.offer_ids[offer1].price < self.offer_ids[offer2].price:
-    #                 self.best_offer = self.offer_ids[offer2].price
 
     @api.depends('living_area', 'garden_area')
     def _compute_total_area(self):
