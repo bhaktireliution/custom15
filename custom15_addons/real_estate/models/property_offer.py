@@ -17,23 +17,38 @@ class Propertyoffer(models.Model):
     _description = "Real Estate Property Offer"
 
     price = fields.Float(string='Price')
-    partner_id = fields.Many2one('res.partner', string='Partner', required=True)
+    partner_id = fields.Many2one('res.partner', string='Partner', required=False)
     status = fields.Selection([
         ('accepted', 'Accepted'),
         ('refused', 'Refused'),
-    ], copy=False)
-    property_id = fields.Many2one('real_estate.order', string='Property', required=True)
+    ], copy=False, required=False)
+    property_id = fields.Many2one('real_estate.order', string='Property')
     validity = fields.Integer(string='Validity', default=7)
-    date_deadline = fields.Date(string='Deadline', compute='_compute_date', inverse='_inverse_date')
+    date_deadline = fields.Date(string='Deadline', defaul='rec.create_date', compute='_compute_date', inverse='_inverse_date', store=True)
 
-    # @api.depends('validity')
-    # def _compute_date(self):
+
+    @api.depends('create_date')
+    def _compute_date(self):
+        for rec in self:
+            if rec.create_date:
+                rec.date_deadline = rec.create_date + timedelta(days=rec.validity)
+
+    def _inverse_date(self):
+        for rec in self:
+            if rec.date_deadline:
+                rec.validity = (fields.Datetime.to_datetime(rec.date_deadline) - rec.create_date).days
+
+
+
+    # def _inverse_date(self):
     #     for rec in self:
-    #         rec.date_deadline = rec.validity + rec.date_deadline
-    #
+    #         rec.validity = (rec.date_deadline - rec.create_date).days
+
     # def _inverse_date(self):
     #     for rec in self:
     #         rec.validity = rec.date_deadline + rec.validity
+
+
 
 
 

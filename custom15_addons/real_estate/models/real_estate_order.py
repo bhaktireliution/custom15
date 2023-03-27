@@ -16,12 +16,12 @@ class realestateorder(models.Model):
     _name = "real_estate.order"
     _description = "Real Estate Order"
 
-    name = fields.Char(string='Name', required=True)
+    name = fields.Char(string='Name', default=lambda self: _('New'))
     description = fields.Text(string='Description', required=False)
     postcode = fields.Char(string='Postcode', required=False)
-    date_availability = fields.Date(string='Available Date', required=True)
-    expected_price = fields.Float(string='Expected Price', store=True, required=False)
-    selling_price = fields.Float(string='Selling Price', store=True)
+    date_availability = fields.Date(string='Available Date', required=False)
+    expected_price = fields.Float(string='Expected Price', required=False)
+    selling_price = fields.Float(string='Selling Price')
     bedrooms = fields.Integer(string='Bedrooms')
     living_area = fields.Integer(string='Living Area(sqm)')
     facades = fields.Integer(string='Facades')
@@ -43,14 +43,14 @@ class realestateorder(models.Model):
     total_area = fields.Integer(string='Total Area(sqm)', compute='_compute_total_area')
     best_offer = fields.Float(string='Best Price', compute='_compute_best_offer')
 
-    @api.depends('offer_ids.validity', 'offer_ids.date_deadline')
-    def _compute_date(self):
-        for rec in self:
-            rec.date_deadline = rec.validity + rec.date_availability
-
-    def _inverse_date(self):
-        for rec in self:
-            rec.validity = rec.date_availability + rec.validity
+    # @api.depends('offer_ids.validity', 'offer_ids.date_deadline')
+    # def _compute_date(self):
+    #     for rec in self:
+    #         rec.date_deadline = rec.validity + rec.date_availability
+    #
+    # def _inverse_date(self):
+    #     for rec in self:
+    #         rec.validity = rec.date_availability + rec.validity
 
 
     @api.depends('offer_ids.price')
