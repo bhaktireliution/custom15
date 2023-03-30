@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from datetime import datetime, timedelta
@@ -42,15 +42,13 @@ class realestateorder(models.Model):
     offer_ids = fields.One2many('property.offer', 'property_id', string='Offers')
     total_area = fields.Integer(string='Total Area(sqm)', compute='_compute_total_area')
     best_offer = fields.Float(string='Best Price', compute='_compute_best_offer')
-
-    # @api.depends('offer_ids.validity', 'offer_ids.date_deadline')
-    # def _compute_date(self):
-    #     for rec in self:
-    #         rec.date_deadline = rec.validity + rec.date_availability
-    #
-    # def _inverse_date(self):
-    #     for rec in self:
-    #         rec.validity = rec.date_availability + rec.validity
+    state = fields.Selection([
+        ('new', 'New'),
+        ('offer_received', 'Offer Received'),
+        ('offer_accepted', 'Offer Accepted'),
+        ('sold', 'Sold'),
+        ('canceled', 'Canceled'),
+    ], string='Status', copy=False, default='new')
 
 
     @api.depends('offer_ids.price')
@@ -61,7 +59,7 @@ class realestateorder(models.Model):
                 for offer2 in range(offer1 + 1, len(rec.offer_ids)):
                     if rec.offer_ids[offer1].price < rec.offer_ids[offer2].price:
                         rec.best_offer = rec.offer_ids[offer2].price
-
+        # self.best_offer = self.mapped('offer_ids.price')
 
     @api.depends('living_area', 'garden_area')
     def _compute_total_area(self):
@@ -77,3 +75,27 @@ class realestateorder(models.Model):
             else:
                 rec.garden_area = 0
                 rec.garden_orientation = None
+
+    def action_sold(self):
+        for record in self:
+            if record.state == "canceled":
+                error = 'Canceled properties cannot be sold.'
+                raise UserError(error)
+            else:
+                record.state = "sold"
+        return True
+
+    def action_cancel(self):
+        for record in self:
+            if record.state == "sold":
+                error = 'Sold properties cannot be cancel.'
+                raise UserError(error)
+            else:
+                record.state = "canceled"
+        return True
+
+    # def action_selling_price(self):
+    #     for record in self:
+    #         if record.state == "accepted":
+    #             record.selling_price = record.offer_ids.price
+    #             record.buyer_id = record.offer_ids.partner_id

@@ -33,6 +33,10 @@
             <field name="model">real_estate.order</field>
             <field name="arch" type="xml">
               <form string="Properties">
+                  <header>
+                      <button name='action_sold' type="object" string='Sold'/>
+                      <button name='action_cancel' type="object" string='Cancel'/>
+                  </header>
                   <sheet>
                       <h1><field name="name"/></h1>
                       <group>
@@ -59,6 +63,7 @@
                                    <field name="garden_area"/>
                                    <field name="garden_orientation"/>
                                    <field name="total_area"/>
+                                   <field name="state"/>
                                   </group>
                               </page>
                               <page string="Offers">
@@ -66,6 +71,8 @@
                                               <tree string="Properties Offer" editable="bottom">
                                                   <field name="price" string="Price"/>
                                                   <field name="partner_id" string="Partner"/>
+                                                  <button name="action_accept" type="object" icon="fa-check"/>
+                                                  <button name="action_refuse" type="object" icon="fa-times"/>
                                                   <field name="status" string="Status"/>
                                                   <field name="validity" string="Validity"/>
                                                   <field name="date_deadline" string="Deadline"/>
