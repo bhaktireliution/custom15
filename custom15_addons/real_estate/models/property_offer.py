@@ -39,11 +39,11 @@ class Propertyoffer(models.Model):
                 rec.validity = (fields.Datetime.to_datetime(rec.date_deadline) - rec.create_date).days
 
     def action_accept(self):
-        for record in self:
-            record.status = "accepted"
-        return True
+        self.write({"status": "accepted"})
+        self.property_id.write({
+            "state": "offer_accepted",
+            "selling_price": self.price,
+            "buyer_id": self.partner_id})
 
     def action_refuse(self):
-        for record in self:
-            record.status = "refused"
-        return True
+        return self.write({"status": "refused"})

@@ -36,8 +36,8 @@ class realestateorder(models.Model):
     ], copy=False, index=True, tracking=3, default='draft')
     property_type_id = fields.Many2one('property.type', string='Property Type')
     other_info = fields.Text(string='Other Info', required=False)
-    salesman_id = fields.Many2one('res.partner', string='Salesman')
-    buyer_id = fields.Many2one('res.users', string='Buyer')
+    salesman_id = fields.Many2one('res.users', string='Salesman')
+    buyer_id = fields.Many2one('res.partner', string='Buyer')
     tag_id = fields.Many2many('property.tag', string='Property Tag')
     offer_ids = fields.One2many('property.offer', 'property_id', string='Offers')
     total_area = fields.Integer(string='Total Area(sqm)', compute='_compute_total_area')
@@ -93,9 +93,3 @@ class realestateorder(models.Model):
             else:
                 record.state = "canceled"
         return True
-
-    # def action_selling_price(self):
-    #     for record in self:
-    #         if record.state == "accepted":
-    #             record.selling_price = record.offer_ids.price
-    #             record.buyer_id = record.offer_ids.partner_id
