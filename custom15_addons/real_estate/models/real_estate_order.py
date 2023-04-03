@@ -93,3 +93,18 @@ class realestateorder(models.Model):
             else:
                 record.state = "canceled"
         return True
+
+    # _sql_constraints = [
+    #     ('check_expected_price', 'CHECK(expected_price >= 0)',
+    #      'The expected price must be strictly positive.'),
+    #     ('check_selling_price', 'CHECK(selling_price >= 0)',
+    #      'The selling price must be strictly positive.'),
+    #     ('check_best_offer', 'CHECK(best_offer >= 0)',
+    #      'The offer price must be strictly positive.')
+    # ]
+
+    @api.constrains('selling_price')
+    def _check_selling_price(self):
+        for record in self:
+            if record.selling_price < record.expected_price*0.9:
+                raise ValidationError("The selling price must be at least 90% of expected price!")

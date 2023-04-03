@@ -17,3 +17,4 @@ class propertytype(models.Model):
     _description = "Real Estate Property Type"
 
     name = fields.Char(string='name')
+    property_ids = fields.One2many('real_estate.order', 'property_type_id', string="Properties")

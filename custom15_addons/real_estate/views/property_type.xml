@@ -15,11 +15,22 @@
             <field name="model">property.type</field>
             <field name="arch" type="xml">
                     <form string="Properties Types">
-                            <sheet>
-                                <group>
-                                    <field name="name" string="name"/>
-                                </group>
-                            </sheet>
+                        <sheet>
+                            <h1><field name="name" string="name"/></h1>
+                            <group>
+                                <notebook>
+                                    <page string="Properties">
+                                        <field name="property_ids">
+                                            <tree>
+                                                <field name="name"/>
+                                                <field name="expected_price"/>
+                                                <field name="state"/>
+                                            </tree>
+                                        </field>
+                                    </page>
+                                </notebook>
+                            </group>
+                        </sheet>
                     </form>
             </field>
        </record>
