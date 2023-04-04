@@ -5,7 +5,8 @@
            <field name="model">property.type</field>
            <field name="arch" type="xml">
                    <tree string="Properties Types">
-                           <field name="name" string="name"/>
+                       <field name="sequence" widget="handle"/>
+                       <field name="name" string="name"/>
                    </tree>
            </field>
        </record>

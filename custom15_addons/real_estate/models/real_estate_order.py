@@ -15,6 +15,7 @@ from odoo.addons.payment import utils as payment_utils
 class realestateorder(models.Model):
     _name = "real_estate.order"
     _description = "Real Estate Order"
+    _order = "property_type_id desc"
 
     name = fields.Char(string='Name', default=lambda self: _('New'))
     description = fields.Text(string='Description', required=False)

@@ -15,6 +15,7 @@ from odoo.addons.payment import utils as payment_utils
 class Propertyoffer(models.Model):
     _name = "property.offer"
     _description = "Real Estate Property Offer"
+    _order = "price desc"
 
     price = fields.Float(string='Price')
     partner_id = fields.Many2one('res.partner', string='Partner', required=False)

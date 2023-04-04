@@ -15,6 +15,8 @@ from odoo.addons.payment import utils as payment_utils
 class propertytype(models.Model):
     _name = "property.type"
     _description = "Real Estate Property Type"
+    _order = "name"
 
     name = fields.Char(string='name')
     property_ids = fields.One2many('real_estate.order', 'property_type_id', string="Properties")
+    sequence = fields.Integer(string='Sequence')
