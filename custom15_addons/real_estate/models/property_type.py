@@ -20,3 +20,14 @@ class propertytype(models.Model):
     name = fields.Char(string='name')
     property_ids = fields.One2many('real_estate.order', 'property_type_id', string="Properties")
     sequence = fields.Integer(string='Sequence')
+    offer_ids = fields.One2many('property.offer', 'property_type_id', string='Offers')
+    offer_count = fields.Integer(string='Offer count', compute='_compute_offer_count')
+
+
+
+    def preview_offers(self):
+        print("test")
+
+    def _compute_offer_count(self):
+        for rec in self:
+            rec.offer_count = len(rec.offer_ids)

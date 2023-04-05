@@ -52,6 +52,13 @@ class realestateorder(models.Model):
     ], string='Status', copy=False, default='new')
 
 
+    # @api.depends('offer_ids.price')
+    # def _compute_best_offer(self):
+    #     for rec in self:
+    #         if rec.offer_ids:
+    #             rec.best_offer = max(rec.offer_ids.mapped('price'))
+
+
     @api.depends('offer_ids.price')
     def _compute_best_offer(self):
         for rec in self:
@@ -60,7 +67,6 @@ class realestateorder(models.Model):
                 for offer2 in range(offer1 + 1, len(rec.offer_ids)):
                     if rec.offer_ids[offer1].price < rec.offer_ids[offer2].price:
                         rec.best_offer = rec.offer_ids[offer2].price
-        # self.best_offer = self.mapped('offer_ids.price')
 
     @api.depends('living_area', 'garden_area')
     def _compute_total_area(self):
@@ -94,6 +100,8 @@ class realestateorder(models.Model):
             else:
                 record.state = "canceled"
         return True
+
+
 
     # _sql_constraints = [
     #     ('check_expected_price', 'CHECK(expected_price >= 0)',

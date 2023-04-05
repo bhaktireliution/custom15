@@ -25,7 +25,8 @@ class Propertyoffer(models.Model):
     ], copy=False, required=False)
     property_id = fields.Many2one('real_estate.order', string='Property')
     validity = fields.Integer(string='Validity', default=7)
-    date_deadline = fields.Date(string='Deadline', defaul='rec.create_date', compute='_compute_date', inverse='_inverse_date', store=True)
+    date_deadline = fields.Date(string='Deadline', compute='_compute_date', inverse='_inverse_date', store=True)
+    property_type_id = fields.Many2one('property.type', string='Property Type', related="property_id.property_type_id", store=True)
 
 
     @api.depends('create_date')
@@ -48,3 +49,5 @@ class Propertyoffer(models.Model):
 
     def action_refuse(self):
         return self.write({"status": "refused"})
+
+
