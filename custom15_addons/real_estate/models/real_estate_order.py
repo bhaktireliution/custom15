@@ -52,21 +52,10 @@ class realestateorder(models.Model):
     ], string='Status', copy=False, default='new')
 
 
-    # @api.depends('offer_ids.price')
-    # def _compute_best_offer(self):
-    #     for rec in self:
-    #         if rec.offer_ids:
-    #             rec.best_offer = max(rec.offer_ids.mapped('price'))
-
-
-    @api.depends('offer_ids.price')
+    @api.depends("offer_ids.price")
     def _compute_best_offer(self):
         for rec in self:
-            rec.best_offer = 0
-            for offer1 in range(len(rec.offer_ids)):
-                for offer2 in range(offer1 + 1, len(rec.offer_ids)):
-                    if rec.offer_ids[offer1].price < rec.offer_ids[offer2].price:
-                        rec.best_offer = rec.offer_ids[offer2].price
+            rec.best_offer = max(rec.offer_ids.mapped("price"), default=0)
 
     @api.depends('living_area', 'garden_area')
     def _compute_total_area(self):
@@ -117,3 +106,9 @@ class realestateorder(models.Model):
         for record in self:
             if record.selling_price < record.expected_price*0.9:
                 raise ValidationError("The selling price must be at least 90% of expected price!")
+
+    @api.ondelete(at_uninstall=False)
+    def _check_state(self):
+        for rec in self:
+            if rec.state == 'sold':
+                raise ValidationError("Only new and canceled properties can be deleted.")
