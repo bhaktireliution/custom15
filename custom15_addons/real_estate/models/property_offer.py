@@ -1,16 +1,18 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from datetime import datetime, timedelta
 from itertools import groupby
 import json
 
-from odoo import api, fields, models, SUPERUSER_ID, _
+
+from odoo import api, fields, models, _
 from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.osv import expression
 from odoo.tools import float_is_zero, html_keep_url, is_html_empty
 
 from odoo.addons.payment import utils as payment_utils
+
 
 class Propertyoffer(models.Model):
     _name = "property.offer"
@@ -26,8 +28,8 @@ class Propertyoffer(models.Model):
     property_id = fields.Many2one('real_estate.order', string='Property')
     validity = fields.Integer(string='Validity', default=7)
     date_deadline = fields.Date(string='Deadline', compute='_compute_date', inverse='_inverse_date', store=True)
-    property_type_id = fields.Many2one('property.type', string='Property Type', related="property_id.property_type_id", store=True)
-
+    property_type_id = fields.Many2one('property.type', string='Property Type', related="property_id.property_type_id",
+                                       store=True)
 
     @api.depends('create_date')
     def _compute_date(self):
@@ -50,4 +52,8 @@ class Propertyoffer(models.Model):
     def action_refuse(self):
         return self.write({"status": "refused"})
 
+    def create(self, vals):
+        res = super().create(vals)
+        self.property_id.state = 'offer_received'
+        return res
 

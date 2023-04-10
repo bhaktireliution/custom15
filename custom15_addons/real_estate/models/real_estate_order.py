@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from datetime import datetime, timedelta
@@ -10,7 +10,6 @@ from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.osv import expression
 from odoo.tools import float_is_zero, html_keep_url, is_html_empty
 
-from odoo.addons.payment import utils as payment_utils
 
 class realestateorder(models.Model):
     _name = "real_estate.order"
@@ -22,7 +21,7 @@ class realestateorder(models.Model):
     postcode = fields.Char(string='Postcode', required=False)
     date_availability = fields.Date(string='Available Date', required=False)
     expected_price = fields.Float(string='Expected Price', required=False)
-    selling_price = fields.Float(string='Selling Price')
+    selling_price = fields.Float(string='Selling Price', readonly=True)
     bedrooms = fields.Integer(string='Bedrooms')
     living_area = fields.Integer(string='Living Area(sqm)')
     facades = fields.Integer(string='Facades')
@@ -50,7 +49,6 @@ class realestateorder(models.Model):
         ('sold', 'Sold'),
         ('canceled', 'Canceled'),
     ], string='Status', copy=False, default='new')
-
 
     @api.depends("offer_ids.price")
     def _compute_best_offer(self):
@@ -90,8 +88,6 @@ class realestateorder(models.Model):
                 record.state = "canceled"
         return True
 
-
-
     # _sql_constraints = [
     #     ('check_expected_price', 'CHECK(expected_price >= 0)',
     #      'The expected price must be strictly positive.'),
@@ -104,11 +100,27 @@ class realestateorder(models.Model):
     @api.constrains('selling_price')
     def _check_selling_price(self):
         for record in self:
-            if record.selling_price < record.expected_price*0.9:
+            if record.selling_price < record.expected_price * 0.9:
                 raise ValidationError("The selling price must be at least 90% of expected price!")
 
     @api.ondelete(at_uninstall=False)
     def _check_state(self):
         for rec in self:
-            if rec.state == 'sold':
+            if rec.state not in ['new', 'canceled']:
                 raise ValidationError("Only new and canceled properties can be deleted.")
+
+    # @api.onchange('best_offer')
+    # def offer(self):
+    #     for rec in self:
+    #         if rec.offer_ids:
+    #             rec.write({"state": "offer_received"})
+    #             if rec.best_offer and rec.best_offer > rec.offer_ids.price:
+    #                 raise UserError(_("The offer must be higher"))
+    # def write(self,vals):
+    #
+    #
+    #     self.state = "offer_received"
+    #     for rec in self:
+    #         if rec.best_offer and rec.best_offer > rec.offer_ids.price:
+    #             raise UserError(_("The offer must be higher"))
+    #     return super().write(vals)
