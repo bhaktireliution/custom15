@@ -11,7 +11,7 @@ from odoo.osv import expression
 from odoo.tools import float_is_zero, html_keep_url, is_html_empty
 
 
-class realestateorder(models.Model):
+class RealEstateOrder(models.Model):
     _name = "real_estate.order"
     _description = "Real Estate Order"
     _order = "property_type_id desc"

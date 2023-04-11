@@ -52,8 +52,27 @@ class Propertyoffer(models.Model):
     def action_refuse(self):
         return self.write({"status": "refused"})
 
-    def create(self, vals):
-        res = super().create(vals)
-        self.property_id.state = 'offer_received'
-        return res
+    # def create(self, vals):
+    #     res = super().create(vals)
+    #     self.property_id.state = 'offer_received'
+    #     return res
+
+    # def write(self,vals):
+    #     line =
+
+    # @api.model
+    # def create(self, vals):
+    #     x = super().create(vals)
+    #     print("offer:", x)
+    #     # for rec in self:
+    #     #     if rec.property_id:
+    #     #         rec.property_id.state = 'offer_received'
+    #     # return x
+
+    # @api.model
+    # def create(self, vals):
+    #     x = super().create(vals)
+    #     for rec in self:
+    #         if rec.property_id:
+    #             rec.property_id.state = 'offer_received'
 
