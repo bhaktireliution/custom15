@@ -52,13 +52,15 @@ class Propertyoffer(models.Model):
     def action_refuse(self):
         return self.write({"status": "refused"})
 
-    # def create(self, vals):
-    #     res = super().create(vals)
-    #     self.property_id.state = 'offer_received'
-    #     return res
+    @api.model
+    def create(self, vals):
+        res = super().create(vals)
+        res['property_id'].state = 'offer_received'
+        for rec in self:
+            if rec.property_id.best_offer and rec.property_id.best_offer > rec.price:
+                raise UserError(_("The offer must be higher"))
+        return res
 
-    # def write(self,vals):
-    #     line =
 
     # @api.model
     # def create(self, vals):
@@ -75,4 +77,3 @@ class Propertyoffer(models.Model):
     #     for rec in self:
     #         if rec.property_id:
     #             rec.property_id.state = 'offer_received'
-

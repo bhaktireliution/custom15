@@ -17,4 +17,20 @@ class RealEstateOrder(models.Model):
 
     def action_sold(self):
         rec = super(RealEstateOrder, self).action_sold()
-        print("xyz:", rec)
+        self.env['account.move'].create({
+            "partner_id": self.buyer_id,
+            "move_type": "out_invoice",
+            "invoice_line_ids": [
+                ({
+                    "name": self.selling_price,
+                    "quantity": 1.0,
+                    "price_unit": self.selling_price * 0.6
+                }),
+                ({
+                    "name": "administrative fees",
+                    "quantity": 1.0,
+                    "price_unit": 100
+                }),
+            ],
+        })
+        return rec

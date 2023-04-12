@@ -36,7 +36,7 @@ class RealEstateOrder(models.Model):
     ], copy=False, index=True, tracking=3, default='draft')
     property_type_id = fields.Many2one('property.type', string='Property Type')
     other_info = fields.Text(string='Other Info', required=False)
-    salesman_id = fields.Many2one('res.users', string='Salesman')
+    salesman_id = fields.Many2one('res.users', string='Salesman', default=lambda self: self.env.user)
     buyer_id = fields.Many2one('res.partner', string='Buyer')
     tag_id = fields.Many2many('property.tag', string='Property Tag')
     offer_ids = fields.One2many('property.offer', 'property_id', string='Offers')
@@ -97,6 +97,30 @@ class RealEstateOrder(models.Model):
     #      'The offer price must be strictly positive.')
     # ]
 
+    @api.constrains('expected_price')
+    def check_expected_price(self):
+        for rec in self:
+            if rec.expected_price and rec.expected_price <= 0:
+                raise ValidationError(
+                    _("A property expected price must be strictly positive"
+                      ))
+    
+    # @api.constrains('selling_price')
+    # def check_selling_price(self):
+    #     for rec in self:
+    #         if rec.selling_price and rec.selling_price <= 0:
+    #             raise ValidationError(
+    #                 _("A property selling price must be strictly positive"
+    #                   ))
+    #
+    # @api.constrains('best_offer')
+    # def check_best_offer(self):
+    #     for rec in self:
+    #         if rec.best_offer and rec.best_offer <= 0:
+    #             raise ValidationError(
+    #                 _("A property best price must be strictly positive"
+    #                   ))
+
     @api.constrains('selling_price')
     def _check_selling_price(self):
         for record in self:
@@ -109,18 +133,3 @@ class RealEstateOrder(models.Model):
             if rec.state not in ['new', 'canceled']:
                 raise ValidationError("Only new and canceled properties can be deleted.")
 
-    # @api.onchange('best_offer')
-    # def offer(self):
-    #     for rec in self:
-    #         if rec.offer_ids:
-    #             rec.write({"state": "offer_received"})
-    #             if rec.best_offer and rec.best_offer > rec.offer_ids.price:
-    #                 raise UserError(_("The offer must be higher"))
-    # def write(self,vals):
-    #
-    #
-    #     self.state = "offer_received"
-    #     for rec in self:
-    #         if rec.best_offer and rec.best_offer > rec.offer_ids.price:
-    #             raise UserError(_("The offer must be higher"))
-    #     return super().write(vals)
