@@ -104,7 +104,7 @@ class RealEstateOrder(models.Model):
                 raise ValidationError(
                     _("A property expected price must be strictly positive"
                       ))
-    
+
     # @api.constrains('selling_price')
     # def check_selling_price(self):
     #     for rec in self:
