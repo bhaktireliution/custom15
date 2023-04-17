@@ -31,3 +31,10 @@ class propertytype(models.Model):
     def _compute_offer_count(self):
         for rec in self:
             rec.offer_count = len(rec.offer_ids)
+
+    # @api.model
+    # def create(self, vals):
+    #     res = super().create(vals)
+    #     if self.env.user.has_group('real_estate.group_estate_group_user'):
+    #         raise AccessError(_('Real estate agents are not allowed to create new property types or tags.'))
+    #     return res

@@ -48,6 +48,7 @@
                               <field name="postcode"/>
                           </group>
                           <group>
+                              <field name="company_id" groups="base.group_multi_company"/>
                               <field name="expected_price"/>
                               <field name="selling_price"/>
                               <field name="best_offer"/>
