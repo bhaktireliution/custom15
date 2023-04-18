@@ -14,6 +14,7 @@ from odoo.tools import float_is_zero, html_keep_url, is_html_empty
 class RealEstateOrder(models.Model):
     _name = "real_estate.order"
     _description = "Real Estate Order"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = "property_type_id desc"
 
     name = fields.Char(string='Name', default=lambda self: _('New'))
@@ -48,9 +49,10 @@ class RealEstateOrder(models.Model):
         ('offer_accepted', 'Offer Accepted'),
         ('sold', 'Sold'),
         ('canceled', 'Canceled'),
-    ], string='Status', copy=False, default='new')
+    ], string='Status', copy=False, default='new', tracking=True)
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.user.company_id)
+    active = fields.Boolean(default=True)
 
 
     @api.depends("offer_ids.price")
@@ -90,6 +92,8 @@ class RealEstateOrder(models.Model):
             else:
                 record.state = "canceled"
         return True
+
+
 
     # _sql_constraints = [
     #     ('check_expected_price', 'CHECK(expected_price >= 0)',

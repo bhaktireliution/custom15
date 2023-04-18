@@ -16,8 +16,8 @@
             name="settings"
             parent="real_estate_menu_root"
             action="real_estate_action"
-            sequence="2"
-            groups="real_estate.estate_group_manager"/>
+            sequence="2"/>
+<!--            groups="real_estate.estate_group_manager"/>-->
 
         <menuitem id="real_estate_properties_menu"
             name="Properties"

@@ -34,3 +34,4 @@ class RealEstateOrder(models.Model):
             ],
         })
         return rec
+

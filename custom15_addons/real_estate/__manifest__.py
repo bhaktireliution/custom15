@@ -8,10 +8,11 @@
     'category': 'Real Estate/Brokerage',
     'summary': '',
     'description': """""",
-    'depends': [],
+    'depends': ['mail'],
     'data': [
         'security/ir.model.access.csv',
         'security/real_estate_security.xml',
+        'wizard/property_appointment.xml',
         'views/real_estate_views.xml',
         'views/property_type.xml',
         'views/property_tags.xml',
