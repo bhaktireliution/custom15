@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="create_info_form" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <form string="Sale Info">
+                <group>
+                    <field name="user_id"/>
+                    <field name="team_id" domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]"/>
+                    <field name="company_id" invisible="1"/>
+                </group>
+                <footer>
+                    <button string="Confirm" name="action_confirm" type="object" class="oe_highlight"
+                            data-hotkey="q"/>
+                    <button string="Cancel" class="btn btn-default" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+<!--    <record id="model_sale_order_action" model="ir.actions.server">-->
+<!--        <field name="name">Create Info</field>-->
+<!--        <field name="model_id" ref="sale.model_sale_order"/>-->
+<!--        <field name="binding_model_id" ref="sale.model_sale_order"/>-->
+<!--        <field name="binding_view_types">form,list</field>-->
+<!--        <field name="state">code</field>-->
+<!--        <field name="code">action = records.action_confirm()</field>-->
+<!--    </record>-->
+
+    <record id="create_info_wizard" model="ir.actions.act_window">
+        <field name="name">Create Info</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="create_info_form"/>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

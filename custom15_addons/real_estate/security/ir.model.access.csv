@@ -4,4 +4,4 @@ access_property.type,property.type,model_property_type,,1,1,1,1
 access_property.tag,property.tag,model_property_tag,,1,1,1,1
 access_property.offer,property.offer,model_property_offer,,1,1,1,1
 access_res.users,res.users,model_res_users,,1,1,1,1
-access_property.appointment,property.appointment,model_property_appointment,,1,1,1,
+access_property.appointment,property.appointment,model_property_appointment,,1,1,1,1

@@ -15,12 +15,15 @@ class PropertyAppointment(models.TransientModel):
     _name = "property.appointment"
     _description = "Property Appointment"
 
-    buyer_id = fields.Many2one('res.partner', string='Buyer')
+    property_type_id = fields.Many2one('property.type', string='Property Type')
+    name = fields.Char(string="Name")
+    # buyer_id = fields.Many2one('res.partner', string='Buyer')
     # date = fields.Date(string='Appointment Date')
+    # postcode = fields.Char(string='Postcode')
 
     def create_appointment(self):
-        print("xyz")
         x = {
-            'buyer_id': self.buyer_id
+            'property_type_id': self.property_type_id.id,
+            'name': self.name
         }
         self.env['real_estate.order'].create(x)

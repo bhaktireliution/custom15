@@ -10,7 +10,6 @@ from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.osv import expression
 from odoo.tools import float_is_zero, html_keep_url, is_html_empty
 
-
 class RealEstateOrder(models.Model):
     _name = "real_estate.order"
     _description = "Real Estate Order"
@@ -34,7 +33,7 @@ class RealEstateOrder(models.Model):
         ('south', 'South'),
         ('east', 'East'),
         ('west', 'West'),
-    ], copy=False, index=True, tracking=3, default='draft')
+    ], copy=False, index=True, tracking=3)
     property_type_id = fields.Many2one('property.type', string='Property Type')
     other_info = fields.Text(string='Other Info', required=False)
     salesman_id = fields.Many2one('res.users', string='Salesman', default=lambda self: self.env.user)
@@ -53,6 +52,7 @@ class RealEstateOrder(models.Model):
     company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.user.company_id)
     active = fields.Boolean(default=True)
+    sequence = fields.Char(string='Sequence', required=False)
 
 
     @api.depends("offer_ids.price")
@@ -140,3 +140,14 @@ class RealEstateOrder(models.Model):
             if rec.state not in ['new', 'canceled']:
                 raise ValidationError("Only new and canceled properties can be deleted.")
 
+    @api.model
+    def create(self, vals):
+        vals['sequence'] = self.env['ir.sequence'].next_by_code('real_estate.order')
+        return super().create(vals)
+
+    # def name_get(self):
+    #     property_list = []
+    #     for rec in self:
+    #         property_type_id = str(rec.sequence) + rec.property_type_id
+    #         property_list.append(rec.property_type_id, property_type_id)
+    #     return property_list

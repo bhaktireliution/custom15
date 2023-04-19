@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record model="ir.module.category" id="base.module_category_real_estate_brokerage">
-        <field name="name">Real Estate</field>
-        <field name="sequence">60</field>
-    </record>
+<!--    <record model="ir.module.category" id="base.module_category_real_estate_brokerage">-->
+<!--        <field name="name">Real Estate</field>-->
+<!--        <field name="sequence">60</field>-->
+<!--    </record>-->
 
-    <record id="estate_group_user" model="res.groups">
-        <field name="name">Agent</field>
-        <field name="category_id" ref="base.module_category_real_estate_brokerage"/>
-    </record>
+<!--    <record id="estate_group_user" model="res.groups">-->
+<!--        <field name="name">Agent</field>-->
+<!--        <field name="category_id" ref="base.module_category_real_estate_brokerage"/>-->
+<!--    </record>-->
 
-    <record id="estate_group_manager" model="res.groups">
-        <field name="name">Manager</field>
-        <field name="category_id" ref="base.module_category_real_estate_brokerage"/>
-    </record>
+<!--    <record id="estate_group_manager" model="res.groups">-->
+<!--        <field name="name">Manager</field>-->
+<!--        <field name="category_id" ref="base.module_category_real_estate_brokerage"/>-->
+<!--    </record>-->
 
 <!--    <record id="estate_rule_domain" model="ir.rule">-->
 <!--        <field name="name">Salesperson Property Access Rule</field>-->

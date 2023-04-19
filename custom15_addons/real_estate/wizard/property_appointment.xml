@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <form string="Properties">
                 <group>
-                    <field name="buyer_id"/>
+                    <field name="name"/>
 <!--                    <field name="date"/>-->
                 </group>
                 <footer>
@@ -26,6 +26,7 @@
         <field name="view_id" ref="create_appointment_form"/>
         <field name="target">new</field>
     </record>
+
 
 
     <menuitem id="real_estate_menu_root" name="RealEstate" sequence="4"/>

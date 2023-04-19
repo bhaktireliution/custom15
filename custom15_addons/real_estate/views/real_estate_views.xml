@@ -13,8 +13,8 @@
                 <field name="name" string="Name"/>
                 <field name="description" string="Description" optional="hide"/>
                 <field name="postcode" string="Postcode"/>
-                <field name="expected_price" string="Expected Price"/>
-                <field name="selling_price" string="Selling Price"/>
+                <field name="expected_price" string="Expected Price" avg="Average Of Expected Price"/>
+                <field name="selling_price" string="Selling Price" sum="Total Of Selling Price"/>
                 <field name="date_availability" string="Date Availability" optional="hide"/>
                 <field name="bedrooms" string="Bedrooms" optional="hide"/>
                 <field name="living_area" string="Living Area(sqm)" optional="hide"/>
@@ -27,6 +27,7 @@
                 <field name="salesman_id" string="Salesman" optional="hide"/>
                 <field name="buyer_id" string="Buyer" optional="hide"/>
                 <field name="state" string="Status"/>
+                <field name="sequence" string="Sequence"/>
             </tree>
         </field>
     </record>
@@ -52,6 +53,7 @@
                             <field name="tag_id" widget="many2many_tags" options="{'color_field': 'color'}"/>
                             <field name="property_type_id"/>
                             <field name="postcode"/>
+                            <field name="sequence" readonly="1"/>
                             <field name="active" invisible="1"/>
                         </group>
                         <group>
