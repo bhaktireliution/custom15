@@ -7,8 +7,10 @@
         <field name="arch" type="xml">
             <form string="Properties">
                 <group>
-                    <field name="name"/>
-<!--                    <field name="date"/>-->
+                    <field name="buyer_id"/>
+                    <field name="date_availability"/>
+                    <field name="tag_id"/>
+<!--                    <field name="offer_ids"/>-->
                 </group>
                 <footer>
                     <button string="Create" name="create_appointment" type="object" class="oe_highlight"

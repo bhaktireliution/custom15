@@ -15,15 +15,33 @@ class PropertyAppointment(models.TransientModel):
     _name = "property.appointment"
     _description = "Property Appointment"
 
-    property_type_id = fields.Many2one('property.type', string='Property Type')
-    name = fields.Char(string="Name")
-    # buyer_id = fields.Many2one('res.partner', string='Buyer')
-    # date = fields.Date(string='Appointment Date')
+    # property_type_id = fields.Many2one('property.type', string='Property Type')
+    # name = fields.Char(string="Name")
+    buyer_id = fields.Many2one('res.partner', string='Buyer')
+    date_availability = fields.Date(string='Available Date', required=False)
+    tag_id = fields.Many2many('property.tag', string='Property Tag')
+    # offer_ids = fields.One2many('property.offer', 'property_id', string='Offers')
     # postcode = fields.Char(string='Postcode')
 
     def create_appointment(self):
-        x = {
-            'property_type_id': self.property_type_id.id,
-            'name': self.name
+        active_id = self._context.get('active_id')
+        upd_var = self.env['real_estate.order'].browse(active_id)
+        tag_lst = []
+        for vals in self.tag_id:
+            tag_lst.append(vals.id)
+        # lst2 = []
+        # for vals2 in self.offer_ids:
+        #     lst2.append((0,0,{
+        #         'price': vals2.price,
+        #         'partner_id': vals2.partner_id.id,
+        #         'status': vals2.status,
+        #         'validity': vals2.validity,
+        #         'date_deadline': vals2.date_deadline
+        #     }))
+        vals = {
+            'buyer_id': self.buyer_id.id,
+            'date_availability': self.date_availability,
+            'tag_id': [(6,0,tag_lst)],
+            # 'offer_ids': lst2
         }
-        self.env['real_estate.order'].create(x)
+        upd_var.update(vals)

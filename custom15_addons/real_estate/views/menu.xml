@@ -37,4 +37,10 @@
             action="property_tags_action"
             sequence="10"/>
 
+<!--        <menuitem id="function_menu"-->
+<!--            name="Function Call"-->
+<!--            parent="real_estate_menu_root"-->
+<!--            action="menu_python_function_call"-->
+<!--            sequence="10"/>-->
+
 </odoo>
