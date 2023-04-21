@@ -21,6 +21,7 @@ class PropertyAppointment(models.TransientModel):
     date_availability = fields.Date(string='Available Date', required=False)
     tag_id = fields.Many2many('property.tag', string='Property Tag')
     # offer_ids = fields.One2many('property.offer', 'property_id', string='Offers')
+    # property_id = fields.Many2one('real_estate.order', string='Property')
     # postcode = fields.Char(string='Postcode')
 
     def create_appointment(self):
@@ -36,7 +37,8 @@ class PropertyAppointment(models.TransientModel):
         #         'partner_id': vals2.partner_id.id,
         #         'status': vals2.status,
         #         'validity': vals2.validity,
-        #         'date_deadline': vals2.date_deadline
+        #         'date_deadline': vals2.date_deadline,
+        #         'property_id': vals2.property_id
         #     }))
         vals = {
             'buyer_id': self.buyer_id.id,

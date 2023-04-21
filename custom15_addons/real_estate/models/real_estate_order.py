@@ -94,6 +94,12 @@ class RealEstateOrder(models.Model):
         return True
 
 
+    def action_send_mail(self):
+        template = self.env.ref('real_estate.property_mail_template')
+        for rec in self:
+            template.send_mail(rec.id)
+
+
 
     # _sql_constraints = [
     #     ('check_expected_price', 'CHECK(expected_price >= 0)',
@@ -112,21 +118,21 @@ class RealEstateOrder(models.Model):
                     _("A property expected price must be strictly positive"
                       ))
 
-    # @api.constrains('selling_price')
-    # def check_selling_price(self):
-    #     for rec in self:
-    #         if rec.selling_price and rec.selling_price <= 0:
-    #             raise ValidationError(
-    #                 _("A property selling price must be strictly positive"
-    #                   ))
-    #
-    # @api.constrains('best_offer')
-    # def check_best_offer(self):
-    #     for rec in self:
-    #         if rec.best_offer and rec.best_offer <= 0:
-    #             raise ValidationError(
-    #                 _("A property best price must be strictly positive"
-    #                   ))
+    @api.constrains('selling_price')
+    def check_selling_price(self):
+        for rec in self:
+            if rec.selling_price and rec.selling_price <= 0:
+                raise ValidationError(
+                    _("A property selling price must be strictly positive"
+                      ))
+
+    @api.constrains('best_offer')
+    def check_best_offer(self):
+        for rec in self:
+            if rec.best_offer and rec.best_offer <= 0:
+                raise ValidationError(
+                    _("A property best price must be strictly positive"
+                      ))
 
     @api.constrains('selling_price')
     def _check_selling_price(self):

@@ -40,6 +40,7 @@
                 <header>
                     <button name='action_sold' type="object" string='Sold' states="offer_accepted"/>
                     <button name='action_cancel' type="object" string='Cancel'/>
+                    <button name='action_send_mail' type="object" string='Send Mail' class="oe_highlight"/>
                     <button name='%(real_estate.create_appointment_wizard)d' type="action" string="Create Appointment"
                             class="oe_highlight"/>
                     <field name="state" widget="statusbar" statusbar_visible="new,offer_received,offer_accepted,sold"/>
@@ -52,7 +53,7 @@
                         <group>
                             <field name="tag_id" widget="many2many_tags" options="{'color_field': 'color'}"/>
                             <field name="property_type_id"/>
-                            <field name="postcode"/>
+                            <field name="postcode" groups="base.group_no_one"/>
                             <field name="sequence" readonly="1"/>
                             <field name="active" invisible="1"/>
                         </group>
@@ -214,11 +215,11 @@
         <field name="domain">[('property_type_id', '=', active_id)]</field>
     </record>
 
-    <!--    <record id="menu_python_function_call" model="ir.actions.server">-->
-    <!--        <field name="name">Call function from menu</field>-->
-    <!--        <field name="model_id" ref="real_estate_order"/>-->
-    <!--        <field name="state">code</field>-->
-    <!--        <field name="code">model.action_sold()</field>-->
-    <!--    </record>-->
+<!--        <record id="menu_python_function_call" model="ir.actions.server">-->
+<!--            <field name="name">Call function from menu</field>-->
+<!--            <field name="model_id" ref="model_property_offer"/>-->
+<!--            <field name="state">code</field>-->
+<!--            <field name="code">action=model.action_accept()</field>-->
+<!--        </record>-->
 
 </odoo>

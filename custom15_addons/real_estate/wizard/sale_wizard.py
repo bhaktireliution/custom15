@@ -12,7 +12,7 @@ from odoo.tools import float_is_zero, html_keep_url, is_html_empty
 
 
 class SaleOrder(models.Model):
-    _inherit = 'sale.order'
+    _inherit = ['sale.order']
 
     partner_id = fields.Many2one(
         'res.partner', string='Customer', readonly=True,
@@ -38,6 +38,7 @@ class SaleOrder(models.Model):
             'team_id': self.team_id
         }
         upd_var.write(vals)
+
 
 
 

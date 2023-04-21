@@ -13,6 +13,7 @@
         'security/ir.model.access.csv',
         'security/real_estate_security.xml',
         'data/sequence_data.xml',
+        'data/mail_template_data.xml',
         'wizard/property_appointment.xml',
         'wizard/sale_wizard.xml',
         'views/real_estate_views.xml',
