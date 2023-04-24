@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from datetime import datetime, timedelta
+import datetime
 from itertools import groupby
 import json
 
@@ -15,6 +15,12 @@ class PropertyAppointment(models.TransientModel):
     _name = "property.appointment"
     _description = "Property Appointment"
 
+    @api.model
+    def default_get(self, fields):
+        res = super(PropertyAppointment, self).default_get(fields)
+        res['date_availability'] = datetime.date.today()
+        return res
+
     # property_type_id = fields.Many2one('property.type', string='Property Type')
     # name = fields.Char(string="Name")
     buyer_id = fields.Many2one('res.partner', string='Buyer')
@@ -23,6 +29,7 @@ class PropertyAppointment(models.TransientModel):
     # offer_ids = fields.One2many('property.offer', 'property_id', string='Offers')
     # property_id = fields.Many2one('real_estate.order', string='Property')
     # postcode = fields.Char(string='Postcode')
+
 
     def create_appointment(self):
         active_id = self._context.get('active_id')
@@ -43,7 +50,7 @@ class PropertyAppointment(models.TransientModel):
         vals = {
             'buyer_id': self.buyer_id.id,
             'date_availability': self.date_availability,
-            'tag_id': [(6,0,tag_lst)],
+            'tag_id': [(6, 0, tag_lst)],
             # 'offer_ids': lst2
         }
         upd_var.update(vals)

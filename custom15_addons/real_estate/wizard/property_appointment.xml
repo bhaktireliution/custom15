@@ -41,9 +41,8 @@
         <field name="target">new</field>
     </record>
 
-
-
     <menuitem id="real_estate_menu_root" name="RealEstate" sequence="4"/>
-    <menuitem id="create_appointment" name="Create Appointment" parent="real_estate_menu_root" sequence="5"
+    <menuitem id="create_appointment" name="Create Appointment" parent="real_estate_settings_menu" sequence="10"
               action="create_appointment_wizard"/>
+
 </odoo>

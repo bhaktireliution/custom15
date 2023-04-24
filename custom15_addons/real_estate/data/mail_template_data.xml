@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="1">
+    <data noupdate="0">
 
         <record id="property_mail_template" model="mail.template">
             <field name="name">Property Template</field>
             <field name="model_id" ref="real_estate.model_real_estate_order"/>
             <field name="subject">Property Details</field>
-            <field name="email_from">"{{ user.email }}&gt;</field>
+            <field name="email_from">{{ user.email }}</field>
             <field name="email_to">{{ object.buyer_id.email }}</field>
             <field name="body_html" type="html">
                 <table border="0" cellpadding="0" cellspacing="0"
@@ -49,18 +49,22 @@
                                                 <tr>
                                                     <td valign="top" style="font-size: 13px;">
                                                         <div>
-                                                            Dear <t t-out="object.buyer_id.name"/>,
+                                                            Dear<t t-out="object.buyer_id.name"/>,
                                                             <br/>
                                                             <br/>
-                                                            Your Property Has Bee Successfully Booked On <t t-out="object.date_availability"/>
+                                                            Your Property Has Bee Successfully Booked On
+                                                            <t t-out="object.date_availability"/>
                                                             <br/>
-                                                            Property Name: <t t-out="object.name"/>
+                                                            Property Name:
+                                                            <t t-out="object.name"/>
                                                             <br/>
                                                             <br/>
                                                             Thanks,
                                                             <t t-if="user.signature">
                                                                 <br/>
-                                                                <t t-out="user.signature">--<br/><t t-out="user.name"/>
+                                                                <t t-out="user.signature">--
+                                                                    <br/>
+                                                                    <t t-out="user.name"/>
                                                                 </t>
                                                             </t>
                                                         </div>
@@ -114,7 +118,10 @@
                     </tr>
                 </table>
             </field>
+            <field name="lang">{{ object.buyer_id.lang }}</field>
             <field name="auto_delete" eval="True"/>
+            <field name="report_template" ref="action_report_offers"/>
+            <field name="report_name">Property Offers_{{ (object.name)</field>
         </record>
     </data>
 </odoo>

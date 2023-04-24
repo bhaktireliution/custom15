@@ -9,7 +9,7 @@
                   decoration-success="state in ['offer_received', 'offer_accepted']"
                   decoration-danger="state=='canceled'" decoration-muted="state=='sold'">
                 <field name="property_type_id" string="Property Type"/>
-                <field name="tag_id" string="Property Tag" widget="many2many_tags"/>
+                <field name="tag_id" string="Property Tag" widget="many2many_tags" options="{'color_field': 'color'}"/>
                 <field name="name" string="Name"/>
                 <field name="description" string="Description" optional="hide"/>
                 <field name="postcode" string="Postcode"/>
@@ -62,6 +62,7 @@
                             <field name="selling_price"/>
                             <field name="best_offer"/>
                             <field name="date_availability"/>
+                            <field name="cancel_date"/>
                         </group>
                     </group>
                     <notebook>

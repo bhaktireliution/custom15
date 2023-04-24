@@ -10,7 +10,7 @@
                     <field name="user_id"/>
                     <field name="team_id" domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]"/>
                     <field name="company_id" invisible="1"/>
-                    <field name="partner_id" invisible="1" readonly="1"  domain="[('type', '!=', 'private'), ('company_id', 'in', (False, company_id))]"/>
+                    <field name="partner_id" readonly="1" required="0"/>
                 </group>
                 <footer>
                     <button string="Confirm" name="action_confirm" type="object" class="oe_highlight"

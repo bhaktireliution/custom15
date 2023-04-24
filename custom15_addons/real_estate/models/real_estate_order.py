@@ -16,10 +16,17 @@ class RealEstateOrder(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = "property_type_id desc"
 
+    @api.model
+    def default_get(self, fields):
+        res = super(RealEstateOrder, self).default_get(fields)
+        res['cancel_date'] = datetime.now() + timedelta(days=5)
+        return res
+
     name = fields.Char(string='Name', default=lambda self: _('New'))
     description = fields.Text(string='Description', required=False)
     postcode = fields.Char(string='Postcode', required=False)
     date_availability = fields.Date(string='Available Date', required=False)
+    cancel_date = fields.Date(string='Cancel Date', required=False)
     expected_price = fields.Float(string='Expected Price', required=False)
     selling_price = fields.Float(string='Selling Price', readonly=True)
     bedrooms = fields.Integer(string='Bedrooms')
@@ -54,6 +61,11 @@ class RealEstateOrder(models.Model):
     active = fields.Boolean(default=True)
     sequence = fields.Char(string='Sequence', required=False)
 
+    @api.model
+    def update_property_state(self):
+        for rec in self:
+            if rec.cancel_date == datetime.now():
+                rec.state = 'canceled'
 
     @api.depends("offer_ids.price")
     def _compute_best_offer(self):
@@ -93,13 +105,28 @@ class RealEstateOrder(models.Model):
                 record.state = "canceled"
         return True
 
-
     def action_send_mail(self):
         template = self.env.ref('real_estate.property_mail_template')
         for rec in self:
             template.send_mail(rec.id)
-
-
+        lang = self.env.context.get('lang')
+        ctx = {
+            'default_model': 'real_estate.order',
+            'default_res_id': self.ids[0],
+            'default_composition_mode': 'comment',
+            'mark_so_as_sent': True,
+            'custom_layout': "mail.mail_notification_paynow",
+            'force_email': True
+        }
+        return {
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(False, 'form')],
+            'view_id': False,
+            'target': 'new',
+            'context': ctx,
+        }
 
     # _sql_constraints = [
     #     ('check_expected_price', 'CHECK(expected_price >= 0)',
@@ -151,9 +178,4 @@ class RealEstateOrder(models.Model):
         vals['sequence'] = self.env['ir.sequence'].next_by_code('real_estate.order')
         return super().create(vals)
 
-    # def name_get(self):
-    #     property_list = []
-    #     for rec in self:
-    #         property_type_id = str(rec.sequence) + rec.property_type_id
-    #         property_list.append(rec.property_type_id, property_type_id)
-    #     return property_list
+

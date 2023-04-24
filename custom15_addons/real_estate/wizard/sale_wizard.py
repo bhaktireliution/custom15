@@ -35,11 +35,7 @@ class SaleOrder(models.Model):
         upd_var = self.env['sale.order'].browse(active_id)
         vals = {
             'user_id': self.user_id,
-            'team_id': self.team_id
+            'team_id': self.team_id,
+            'partner_id': self.partner_id
         }
-        upd_var.write(vals)
-
-
-
-
-
+        upd_var.update(vals)
