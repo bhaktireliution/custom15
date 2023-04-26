@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from datetime import datetime, timedelta
@@ -9,6 +9,7 @@ from odoo import api, fields, models, SUPERUSER_ID, _
 from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.osv import expression
 from odoo.tools import float_is_zero, html_keep_url, is_html_empty
+
 
 class RealEstateOrder(models.Model):
     _name = "real_estate.order"
@@ -63,9 +64,11 @@ class RealEstateOrder(models.Model):
 
     @api.model
     def update_property_state(self):
-        for rec in self:
-            if rec.cancel_date == datetime.now():
-                rec.state = 'canceled'
+        change_state = self._search([
+            ('state', 'in', 'new'),
+            ('cancel_date', '=', fields.date.today())
+        ])
+        change_state.write({'state': 'canceled'})
 
     @api.depends("offer_ids.price")
     def _compute_best_offer(self):
@@ -104,6 +107,17 @@ class RealEstateOrder(models.Model):
             else:
                 record.state = "canceled"
         return True
+
+    def action_reset(self):
+        for rec in self:
+            if rec.state == "canceled":
+                return {
+                     'type': 'ir.actions.act_window',
+                     'view_mode': 'form',
+                     'view_id': False,
+                     'res_model': 'real_estate.order',
+                     'domain': []
+                 }
 
     def action_send_mail(self):
         template = self.env.ref('real_estate.property_mail_template')
@@ -178,4 +192,9 @@ class RealEstateOrder(models.Model):
         vals['sequence'] = self.env['ir.sequence'].next_by_code('real_estate.order')
         return super().create(vals)
 
-
+    # def name_get(self):
+    #     result = []
+    #     for rec in self:
+    #         name = rec.sequence + rec.buyer_id
+    #         result.append(rec.id, name)
+    #     return result
